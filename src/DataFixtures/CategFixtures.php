@@ -8,6 +8,8 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Faker\Factory;
+// on a besoin de sluggifier les titres des catégories
+use App\Utils\Slug;
 
 class CategFixtures extends Fixture implements DependentFixtureInterface
 {
@@ -30,8 +32,11 @@ class CategFixtures extends Fixture implements DependentFixtureInterface
 
 
             // setters de la table categ
-            $categ->setTitre($fake->word)
-            ->setSlug($fake->slug(3,true))
+            $titre = $fake->sentence(2);
+            // titre
+            $categ->setTitre($titre)
+            // titre slugifié par notre classe Slug avec la méthode static ::slugletexte
+            ->setSlug(Slug::slugletexte($titre))
             ->setDescr($fake->sentence(25,true));
 
             // nombre d'articles se trouvant dans cette rubrique (entre 1 et 20)

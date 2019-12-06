@@ -8,6 +8,7 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Faker\Factory;
+use App\Utils\Slug;
 
 class ArticleFixtures extends Fixture implements DependentFixtureInterface
 {
@@ -33,7 +34,7 @@ class ArticleFixtures extends Fixture implements DependentFixtureInterface
             // phrase de 1 à 8 mots
             $titre = $fake->sentence(8, true);
             // slug
-            $slug = $fake->slug;
+            $slug = Slug::slugletexte($titre);
             $text = $fake->text(500);
             $date = $fake->dateTime();
 

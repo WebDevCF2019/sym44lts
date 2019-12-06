@@ -570,4 +570,26 @@ Créons un dossier Utils dans src, puis une classe Slug.php avec une métode sta
 Pour vérifier que le Slug est activé:
 
     php bin/console debug:autowiring --all
-                               
+#### Utilisation du Slug dans les fixtures
+Dans CategFixtures.php
+
+    ...
+    // on a besoin de sluggifier les titres des catégories
+    use App\Utils\Slug;
+    ...
+    // setters de la table categ
+    $titre = $fake->words(2);
+    // titre
+    $categ->setTitre($titre)
+    
+    // titre slugifié par notre classe Slug avec la méthode static ::slugletexte
+    ->setSlug(Slug::slugletexte($titre))
+    ->setDescr($fake->sentence(25,true));
+et dans ArticleFixtures.php
+
+    // phrase de 1 à 8 mots
+    $titre = $fake->sentence(8, true);
+    // slug
+    $slug = Slug::slugletexte($titre);
+    
+                                       
