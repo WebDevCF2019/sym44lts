@@ -3,7 +3,9 @@
 {% block title %}{{ parent() }} | Accueil{% endblock %}
 
 {% block menuhaut %}
-    {% include'home/menuhaut.html.twig' %}
+    {% block menuhaut %}
+        {% include'home/menuhaut.html.twig' %}
+    {% endblock %}
 {% endblock %}
 
     {% block content %}

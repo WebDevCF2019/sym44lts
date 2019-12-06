@@ -13,13 +13,20 @@ use App\Entity\Article;
 
 class HomeController extends AbstractController
 {
+
+    // charge le menu
+    public function menuHaut()
+    {
+            // Doctrine récupère tous les champs de la table Categ
+            return  $this->getDoctrine()->getRepository(Categ::class)->findAll();
+
+    }
+
     /**
      * @Route("/", name="homepage")
      */
     public function index()
     {
-        // Doctrine récupère tous les champs de la table Categ
-        $recupMenu = $this->getDoctrine()->getRepository(Categ::class)->findAll();
 
         // Doctrine récupère les 10 derniers articles
         $recupArticles = $this->getDoctrine()->getRepository(Article::class)->findBy([],["thedate"=>"DESC"],10);
@@ -35,7 +42,7 @@ class HomeController extends AbstractController
         // chargement du template
         return $this->render('home/index.html.twig', [
             // envoi du résultat de la requête à twig sous le nom "suitemenu"
-            "suitemenu"=>$recupMenu,
+            "suitemenu"=>$this->menuHaut(),
             "articles"=>$recupArticles,
         ]);
     }

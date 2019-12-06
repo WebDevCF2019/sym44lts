@@ -643,7 +643,7 @@ Et on va l'utiliser dans HomeController tant que truncate n'est pas fonctionel:
     public function detailArticle($slug){
         return new Response($slug);
     }    
- ### Dans /home/index.html.twig
+ #### Dans /home/index.html.twig
  
     <p>{{ item.texte }}
      <br><a href="{{ path("article",{slug:item.slug}) }}">Lire la suite</a></p>   
@@ -651,4 +651,7 @@ Et on va l'utiliser dans HomeController tant que truncate n'est pas fonctionel:
  
     {{ item.thedate|date('d/m/Y \à H\\hi') }}</p>
     
- ####                 
+ ### Création des autres vues      
+ 
+ #### templates/home/categ.html.twig
+ c'est une copie exacte de index.html.twig que l'on va modifier           
