@@ -31,7 +31,8 @@
                      Aucune catégorie
                     {% endfor %}
                 </h6>
-                <p>{{ item.texte }}</p>
+                <p>{{ item.texte }}
+                    <br><a href="{{ path("article",{slug:item.slug}) }}">Lire la suite</a></p>
                 <p>{{ item.userIduser.thename }}</p>
                 {% endfor %}
             </div>

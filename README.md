@@ -634,5 +634,17 @@ Et on va l'utiliser dans HomeController tant que truncate n'est pas fonctionel:
          $valeur->setTexte(TraiteTexte::Raccourci($txt,200));
      }                                 
 
-     
+ ### création des liens sur articles
+ dans HomeController.php
+ 
+    /**
+     * @Route("/article/{slug}", name="article")
+     */
+    public function detailArticle($slug){
+        return new Response($slug);
+    }    
+ ### Dans /home/index.html.twig
+ 
+    <p>{{ item.texte }}
+     <br><a href="{{ path("article",{slug:item.slug}) }}">Lire la suite</a></p>   
                

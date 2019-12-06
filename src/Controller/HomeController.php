@@ -29,7 +29,7 @@ class HomeController extends AbstractController
             // on récupère le texte
             $txt = $valeur->getTexte();
             // on remet le texte raccourci par notre service TraiteTexte
-            $valeur->setTexte(TraiteTexte::Raccourci($txt,200));
+            $valeur->setTexte(TraiteTexte::Raccourci($txt,250));
         }
 
         // chargement du template
@@ -43,6 +43,13 @@ class HomeController extends AbstractController
     * @Route("/categ/{slug}", name="categ")
     */
     public function detailCateg($slug){
+        return new Response($slug);
+    }
+
+    /**
+     * @Route("/article/{slug}", name="article")
+     */
+    public function detailArticle($slug){
         return new Response($slug);
     }
 
