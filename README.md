@@ -554,3 +554,17 @@ dans /home/index.html.twig
            {% endfor %}
          </div>
                       
+#### Création d'un service personnel
+Créons un dossier Utils dans src, puis une classe Slug.php avec une métode statique pour transformer les titres en slug pour les URL
+
+    namespace App\Utils;
+    
+    // création d'une classe pour sluggifier du texte (pour les URL)
+    class Slug
+    {
+        public static function slugletexte(string $string): string
+        {
+            return preg_replace('/\s+/', '-', mb_strtolower(trim(strip_tags($string)), 'UTF-8'));
+        }
+    }
+                           
