@@ -647,4 +647,8 @@ Et on va l'utiliser dans HomeController tant que truncate n'est pas fonctionel:
  
     <p>{{ item.texte }}
      <br><a href="{{ path("article",{slug:item.slug}) }}">Lire la suite</a></p>   
-               
+ pour afficher la date, on a une erreur si on la met telle quelle, on doit ajouter la filtre Twig date:
+ 
+    {{ item.thedate|date('d/m/Y \à H\\hi') }}</p>
+    
+ ####                 

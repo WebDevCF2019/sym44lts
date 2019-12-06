@@ -33,7 +33,7 @@
                 </h6>
                 <p>{{ item.texte }}
                     <br><a href="{{ path("article",{slug:item.slug}) }}">Lire la suite</a></p>
-                <p>{{ item.userIduser.thename }}</p>
+                    <p><a href="{{ path("user",{thelogin:item.userIduser.thelogin}) }}">{{ item.userIduser.thename }}</a> le {{ item.thedate|date('d/m/Y \à H\\hi') }}</p>
                 {% endfor %}
             </div>
         </main>

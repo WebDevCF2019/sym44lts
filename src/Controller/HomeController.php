@@ -52,5 +52,11 @@ class HomeController extends AbstractController
     public function detailArticle($slug){
         return new Response($slug);
     }
+    /**
+     * @Route("/user/{thelogin}", name="user")
+     */
+    public function detailUser($thelogin){
+        return new Response($thelogin);
+    }
 
 }
