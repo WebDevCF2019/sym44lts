@@ -567,4 +567,7 @@ Créons un dossier Utils dans src, puis une classe Slug.php avec une métode sta
             return preg_replace('/\s+/', '-', mb_strtolower(trim(strip_tags($string)), 'UTF-8'));
         }
     }
-                           
+Pour vérifier que le Slug est activé:
+
+    php bin/console debug:autowiring --all
+                               
