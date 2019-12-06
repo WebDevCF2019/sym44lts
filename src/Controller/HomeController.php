@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Utils\TraiteTexte;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -23,7 +24,13 @@ class HomeController extends AbstractController
         // Doctrine récupère les 10 derniers articles
         $recupArticles = $this->getDoctrine()->getRepository(Article::class)->findBy([],["thedate"=>"DESC"],10);
 
-        //dump($recupMenu);
+        // on va faire une boucle tant qu'on a des articles pour raccourcir le texte tant que le plugin composer require twig/extensions (pas encore compatibler Twig 3)
+        foreach ($recupArticles as $valeur){
+            // on récupère le texte
+            $txt = $valeur->getTexte();
+            // on remet le texte raccourci par notre service TraiteTexte
+            $valeur->setTexte(TraiteTexte::Raccourci($txt,200));
+        }
 
         // chargement du template
         return $this->render('home/index.html.twig', [

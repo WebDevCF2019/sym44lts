@@ -592,4 +592,47 @@ et dans ArticleFixtures.php
     // slug
     $slug = Slug::slugletexte($titre);
     
-                                       
+### création d'une classe (un service)
+Dans src/Utils/TraiteTexte.php
+
+    namespace App\Utils;
+    
+    
+    class TraiteTexte
+    {
+    
+        /*
+         * méthode statique permettant grâce à ces arguments de couper un texte sans couper les mots
+         * Raccourci(string $texte, int $length): string
+         */
+        public static function Raccourci(string $texte,int $length): string {
+    
+            // texte plus cours que la longueur de découpe, on renvoie le texte non modifié
+            if(strlen($texte)<=$length) return $texte;
+    
+            // on coupe à la longueur indiquée, sans tenir compte de la césure des mots
+            $coupetexte = substr($texte,0,$length);
+    
+            // on recoupe la chaîne au dernier espace trouvé
+            $coupefinal = substr($coupetexte,0,strrpos($coupetexte," ") );
+    
+            return $coupefinal."...";
+    
+        }
+    
+    }
+Et on va l'utiliser dans HomeController tant que truncate n'est pas fonctionel:
+
+    // Doctrine récupère les 10 derniers articles
+            $recupArticles = $this->getDoctrine()->getRepository(Article::class)->findBy([],["thedate"=>"DESC"],10);
+    
+     // on va faire une boucle tant qu'on a des articles pour raccourcir le texte tant que le plugin composer require twig/extensions (pas encore compatibler Twig 3)
+     foreach ($recupArticles as $valeur){
+         // on récupère le texte
+         $txt = $valeur->getTexte();
+         // on remet le texte raccourci par notre service TraiteTexte
+         $valeur->setTexte(TraiteTexte::Raccourci($txt,200));
+     }                                 
+
+     
+               

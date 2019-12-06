@@ -7,7 +7,7 @@ namespace App\Utils;
 class TraiteTexte
 {
 
-    /**
+    /*
      * méthode statique permettant grâce à ces arguments de couper un texte sans couper les mots
      * Raccourci(string $texte, int $length): string
      */
@@ -22,7 +22,7 @@ class TraiteTexte
         // on recoupe la chaîne au dernier espace trouvé
         $coupefinal = substr($coupetexte,0,strrpos($coupetexte," ") );
 
-        return $coupefinal;
+        return $coupefinal."...";
 
     }
 
