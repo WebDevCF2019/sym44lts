@@ -35,7 +35,7 @@ class ArticleFixtures extends Fixture implements DependentFixtureInterface
             $titre = $fake->sentence(8, true);
             // slug
             $slug = Slug::slugletexte($titre);
-            $text = $fake->text(500);
+            $text = $fake->text(1200);
             $date = $fake->dateTime();
 
             // on prend un utilisateur au hasard entre 0 et le nombre stocké dans $_SESSION['nb_users'] => ici 150

@@ -32,7 +32,7 @@ class CategFixtures extends Fixture implements DependentFixtureInterface
 
 
             // setters de la table categ
-            $titre = $fake->sentence(2);
+            $titre = $fake->words(2,true);
             // titre
             $categ->setTitre($titre)
             // titre slugifié par notre classe Slug avec la méthode static ::slugletexte
@@ -40,7 +40,7 @@ class CategFixtures extends Fixture implements DependentFixtureInterface
             ->setDescr($fake->sentence(25,true));
 
             // nombre d'articles se trouvant dans cette rubrique (entre 1 et 20)
-            $nbArticle = random_int(1,50);
+            $nbArticle = random_int(8,60);
 
             // tant qu'on doit rajouter des articles
             for($b=0;$b<$nbArticle;$b++) {
