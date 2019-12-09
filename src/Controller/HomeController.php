@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+
 use App\Utils\TraiteTexte;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -10,6 +11,8 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Categ;
 // nécessaire pour les articles
 use App\Entity\Article;
+// nécessaire pour les users
+use App\Entity\User;
 
 class HomeController extends AbstractController
 {
@@ -102,7 +105,28 @@ class HomeController extends AbstractController
      * @Route("/user/{thelogin}", name="user")
      */
     public function detailUser($thelogin){
-        return new Response($thelogin);
+        // récupération de l'utilisateur
+        $user = $this
+            ->getDoctrine()
+            ->getRepository(User::class)
+            ->findOneBy(["thelogin"=>$thelogin]);
+
+        // récupération de l'id pour la requête suivante
+        $iduser = $user->getIduser();
+
+        // récupération de ses articles
+        $article = $this
+            ->getDoctrine()
+            ->getRepository(Article::class)
+            ->findBy(["user_iduser"=>$iduser],["thedate"=>"DESC"]);
+
+        // appel de la vue
+        return $this->render("home/user.html.twig",
+            [
+                "suitemenu"=>$this->menuHaut(),
+                "article"=>$article,
+                "utilisateur"=>$user,
+            ]);
     }
 
 }
