@@ -1,6 +1,6 @@
 {% extends 'bootstrap4.html.twig' %}
 
-{% block title %}{{ parent() }} | Utilisateur | {{ categ.titre}}{% endblock %}
+{% block title %}{{ parent() }} | Utilisateur | {{ utilisateur.thename}}{% endblock %}
 
 {% block menuhaut %}
         {% include'home/menuhaut.html.twig' %}
@@ -10,9 +10,9 @@
         <!-- Begin page content -->
         <main role="main" class="flex-shrink-0">
             <div class="container"><hr>
-                <h1 class="mt-5"><small>Utilisateur :</small> {{ categ.titre}} <small class="text-success">({{ categ.articleIdarticle.count }} articles)</small></h1><hr>
-                <p class="lead">{{ categ.descr }}</p>
-                {% for item in articles %}
+                <h1 class="mt-5"><small>Utilisateur :</small> {{ utilisateur.thename}} <small class="text-success">{{ article|length}} articles</small></h1><hr>
+                <p class="lead">Login de l'utilisateur: {{ utilisateur.thelogin }}</p>
+                {% for item in article %}
                     <hr>
                     <h3>{{ item.titre }}</h3>
                     <h6>Catégories:

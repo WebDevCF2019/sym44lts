@@ -794,4 +794,84 @@ dans home/categ.html.twig
     <h1 class="mt-5"><small>Catégorie :</small> {{ categ.titre}} 
     <small class="text-success">({{ categ.articleIdarticle.count }} articles)</small></h1><hr>
     
-                  
+#### Affichage des utilisateurs
+dans HomeController.php
+
+    /**
+    * @Route("/user/{thelogin}", name="user")
+    */
+        public function detailUser($thelogin){
+            // récupération de l'utilisateur
+            $user = $this
+                ->getDoctrine()
+                ->getRepository(User::class)
+                ->findOneBy(["thelogin"=>$thelogin]);
+    
+            // récupération de l'id pour la requête suivante
+            $iduser = $user->getIduser();
+    
+            // récupération de ses articles
+            $article = $this
+                ->getDoctrine()
+                ->getRepository(Article::class)
+                ->findBy(["userIduser"=>$iduser],["thedate"=>"DESC"]);
+    
+            // on va faire une boucle tant qu'on a des articles pour raccourcir le texte tant que le plugin composer require twig/extensions (pas encore compatibler Twig 3)
+            foreach ($article as $valeur){
+                // on récupère le texte
+                $txt = $valeur->getTexte();
+                // on remet le texte raccourci par notre service TraiteTexte
+         $valeur->setTexte(TraiteTexte::Raccourci($txt,250));
+     }
+    
+     // appel de la vue
+     return $this->render("home/user.html.twig",
+         [
+             "suitemenu"=>$this->menuHaut(),
+             "article"=>$article,
+             "utilisateur"=>$user,
+         ]);
+        }      
+        
+Et dans la vue user.html.twig: (utilisation de article|lenght pour connaître le nombre d'article)    
+       
+       {% extends 'bootstrap4.html.twig' %}
+       
+       {% block title %}{{ parent() }} | Utilisateur | {{ utilisateur.thename}}{% endblock %}
+       
+       {% block menuhaut %}
+               {% include'home/menuhaut.html.twig' %}
+       {% endblock %}
+       
+           {% block content %}
+               <!-- Begin page content -->
+               <main role="main" class="flex-shrink-0">
+                   <div class="container"><hr>
+                       <h1 class="mt-5"><small>Utilisateur :</small> {{ utilisateur.thename}} <small class="text-success">{{ article|length}} articles</small></h1><hr>
+                       <p class="lead">Login de l'utilisateur: {{ utilisateur.thelogin }}</p>
+                       {% for item in article %}
+                           <hr>
+                           <h3>{{ item.titre }}</h3>
+                           <h6>Catégories:
+                               {# Tant que l'on a des catégories pour cet article#}
+                           {% for cat in item.categIdcateg %}
+                               <a href="{{ path("categ",{slug:cat.slug}) }}">{{ cat.titre }}</a>
+                               {# si on est pas au dernier tour, on rajoute un | #}
+                               {% if not loop.last %} | {% endif %}
+                               {# Cet article n'est dans aucune catégorie #}
+                           {% else %}
+                               Aucune catégorie
+                           {% endfor %}
+                       </h6>
+                       <p>{{ item.texte }}
+                           <br><a href="{{ path("article",{slug:item.slug}) }}">Lire la suite</a></p>
+                       <p><a href="{{ path("user",{thelogin:item.userIduser.thelogin}) }}">{{ item.userIduser.thename }}</a> le {{ item.thedate|date('d/m/Y \à H\\hi') }}</p>
+                   {% endfor %}
+               </div>
+           </main>
+       {% endblock %}
+       
+       
+       
+       
+         

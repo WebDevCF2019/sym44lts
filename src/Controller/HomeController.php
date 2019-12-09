@@ -118,7 +118,15 @@ class HomeController extends AbstractController
         $article = $this
             ->getDoctrine()
             ->getRepository(Article::class)
-            ->findBy(["user_iduser"=>$iduser],["thedate"=>"DESC"]);
+            ->findBy(["userIduser"=>$iduser],["thedate"=>"DESC"]);
+
+        // on va faire une boucle tant qu'on a des articles pour raccourcir le texte tant que le plugin composer require twig/extensions (pas encore compatibler Twig 3)
+        foreach ($article as $valeur){
+            // on récupère le texte
+            $txt = $valeur->getTexte();
+            // on remet le texte raccourci par notre service TraiteTexte
+            $valeur->setTexte(TraiteTexte::Raccourci($txt,250));
+        }
 
         // appel de la vue
         return $this->render("home/user.html.twig",
