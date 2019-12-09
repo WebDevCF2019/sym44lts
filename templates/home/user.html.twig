@@ -10,7 +10,7 @@
         <!-- Begin page content -->
         <main role="main" class="flex-shrink-0">
             <div class="container"><hr>
-                <h1 class="mt-5"><small>Utilisateur :</small> {{ utilisateur.thename}} <small class="text-success">{{ article|length}} articles</small></h1><hr>
+                <h1 class="mt-5"><small>Utilisateur :</small> {{ utilisateur.thename}} <small class="text-success">({{ article|length}} articles)</small></h1><hr>
                 <p class="lead">Login de l'utilisateur: {{ utilisateur.thelogin }}</p>
                 {% for item in article %}
                     <hr>
