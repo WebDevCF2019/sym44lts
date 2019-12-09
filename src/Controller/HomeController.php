@@ -85,7 +85,17 @@ class HomeController extends AbstractController
      * @Route("/article/{slug}", name="article")
      */
     public function detailArticle($slug){
-        return new Response($slug);
+
+        $article = $this
+            ->getDoctrine()
+            ->getRepository(Article::class)
+            ->findOneBy(['slug'=>$slug]);
+
+        return $this->render("home/article.html.twig",
+            [
+                "suitemenu"=>$this->menuHaut(),
+                "article"=>$article,
+            ]);
     }
 
     /**

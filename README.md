@@ -731,4 +731,61 @@ Et on va l'utiliser dans HomeController tant que truncate n'est pas fonctionel:
 #### Création de la vue article.html.twig
 Dans Templates/home/
 
-           
+    {% extends 'bootstrap4.html.twig' %}
+    
+    {% block title %}{{ parent() }} | Article | {{ article.titre }} {% endblock %}
+    
+    {% block menuhaut %}
+            {% include'home/menuhaut.html.twig' %}
+    {% endblock %}
+    
+        {% block content %}
+            <!-- Begin page content -->
+            <main role="main" class="flex-shrink-0">
+                <div class="container"><hr>
+                    <h1 class="mt-5"><small>Article : {{ article.titre }} </small> </h1><hr>
+                    <p class="lead">Voici le détail de cet article</p>
+    
+                        <hr>
+                        <h3>{{ article.titre }}</h3>
+                        <h6>Catégories:
+                            {# Tant que l'on a des catégories pour cet article#}
+                            {% for cat in article.categIdcateg %}
+                                <a href="{{ path("categ",{slug:cat.slug}) }}">{{ cat.titre }}</a>
+                                {# si on est pas au dernier tour, on rajoute un | #}
+                                {% if not loop.last %} | {% endif %}
+                                {# Cet article n'est dans aucune catégorie #}
+                            {% else %}
+                                Aucune catégorie
+                            {% endfor %}
+                        </h6>
+                        <p>{{ article.texte|nl2br }}</p>
+                        <p><a href="{{ path("user",{thelogin:article.userIduser.thelogin}) }}">{{ article.userIduser.thename }}</a> le {{ article.thedate|date('d/m/Y \à H\\hi') }}</p>
+                </div>
+            </main>
+        {% endblock %}
+    
+    
+
+    
+#### Création du detailArticle
+Dans homeController
+
+    /**
+     * @Route("/article/{slug}", name="article")
+     */
+    public function detailArticle($slug){
+    
+        $article = $this
+            ->getDoctrine()
+            ->getRepository(Article::class)
+            ->findOneBy(['slug'=>$slug]);
+    
+        return $this->render("home/article.html.twig",
+            [
+                "suitemenu"=>$this->menuHaut(),
+                "article"=>$article,
+            ]);
+    } 
+    
+              
