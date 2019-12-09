@@ -788,4 +788,10 @@ Dans homeController
             ]);
     } 
     
-              
+#### Affichage du nombre d'articles par catégories
+dans home/categ.html.twig
+
+    <h1 class="mt-5"><small>Catégorie :</small> {{ categ.titre}} 
+    <small class="text-success">({{ categ.articleIdarticle.count }} articles)</small></h1><hr>
+    
+                  

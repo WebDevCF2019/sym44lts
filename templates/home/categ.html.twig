@@ -10,7 +10,7 @@
         <!-- Begin page content -->
         <main role="main" class="flex-shrink-0">
             <div class="container"><hr>
-                <h1 class="mt-5"><small>Catégorie :</small> {{ categ.titre}}</h1><hr>
+                <h1 class="mt-5"><small>Catégorie :</small> {{ categ.titre}} <small class="text-success">({{ categ.articleIdarticle.count }} articles)</small></h1><hr>
                 <p class="lead">{{ categ.descr }}</p>
                 {% for item in articles %}
                     <hr>
