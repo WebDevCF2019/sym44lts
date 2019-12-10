@@ -880,6 +880,108 @@ Dans ArticleController.php, changeons l'url pour qu'elle fasse partie d'une sect
     /**
      * @Route("/admin/article")
      */       
+Pour accèder au crud des articles:
+http://sym44lts/admin/article/
+
+Pour ajouter et modifier, on obtient des erreurs de type __tostring:
+
+    Catchable Fatal Error: Object of class 
+    App\Entity\User could not be converted to string       
        
-       
-         
+On ouvre le fichier user, et on crée la méthode mage __tostring, qui transformera l'objet User en chaîne de caractère à la demande  :
+
+    // création d'une méthode __tostring qui affichera les texte voulu si on essaye 
+    // de lire l'objet comme si c'était une chaîne de caractère
+        public function __toString():string
+        {
+            return $this->getThename();
+        }       
+Même faute pour categ
+
+    Catchable Fatal Error: Object of class App\Entity\Categ could not be converted to string   
+Avec le choix d'un __tostring pour l'afficher:
+        
+        public function __toString():string
+            {
+                return $this->getTitre();
+            }
+Cette erreur est commune, elle vous permet de choisir un champs
+
+#### Erreur d'attribution des categ aux articles
+
+Symfony par défaut créer un sens pour les relation many to many
+
+Dans Categ, nous avons le lien complet vers l'article :
+
+     /**
+      * @var \Doctrine\Common\Collections\Collection
+      *
+      * @ORM\ManyToMany(targetEntity="Article", inversedBy="categIdcateg")
+      * @ORM\JoinTable(name="categ_has_article",
+      *   joinColumns={
+      *     @ORM\JoinColumn(name="categ_idcateg", referencedColumnName="idcateg")
+      *   },
+      *   inverseJoinColumns={
+      *     @ORM\JoinColumn(name="article_idarticle", referencedColumnName="idarticle")
+      *   }
+      * )
+      */
+     private $articleIdarticle;      
+     
+Par contre dans Article.php, nous avons juste une référence:
+
+     /**
+      * @var \Doctrine\Common\Collections\Collection
+      *
+      * @ORM\ManyToMany(targetEntity="Categ", mappedBy="articleIdarticle")
+      */
+     private $categIdcateg;      
+     
+###### Ceci fonctionne très bien si on gère les categ et qu'on veut rajouter des articles... Mais ça peut poser des problèmes son on gère les articles et qu'on veut y rajouter des catégories.  
+
+#### Pour ne jamais avoir de problèmes entre relation many to many (dans toutes les directions) 
+
+     dans categ.php, on retire juste le inversedBy="categIdcateg":
+     
+     
+          /**
+           * @var \Doctrine\Common\Collections\Collection
+           *
+           * @ORM\ManyToMany(targetEntity="Article")
+           * @ORM\JoinTable(name="categ_has_article",
+           *   joinColumns={
+           *     @ORM\JoinColumn(name="categ_idcateg", referencedColumnName="idcateg")
+           *   },
+           *   inverseJoinColumns={
+           *     @ORM\JoinColumn(name="article_idarticle", referencedColumnName="idarticle")
+           *   }
+           * )
+           */
+          private $articleIdarticle;
+Ensuite on copie uniquement l'annotation de /** à */   
+
+Puis on ouvre Article.php  
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\ManyToMany(targetEntity="Categ", mappedBy="articleIdarticle")
+     */
+    private $categIdcateg;  
+    
+on copie les annotations de categ et on remplace celles de Article, en changeant le nom de la cible, puis on inverse les 2 joinColumns  :
+
+    /**
+    * @var \Doctrine\Common\Collections\Collection
+    *
+    * @ORM\ManyToMany(targetEntity="Categ")
+    * @ORM\JoinTable(name="categ_has_article",
+    *   joinColumns={
+    *   @ORM\JoinColumn(name="article_idarticle", referencedColumnName="idarticle")
+    *   },
+    *   inverseJoinColumns={
+    *     @ORM\JoinColumn(name="categ_idcateg", referencedColumnName="idcateg")
+    *   }
+    * )
+    */  
+Et le problème est résolu       

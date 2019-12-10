@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Entity\Article;
 
 /**
  * Categ
@@ -47,7 +48,7 @@ class Categ
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\ManyToMany(targetEntity="Article", inversedBy="categIdcateg")
+     * @ORM\ManyToMany(targetEntity="Article")
      * @ORM\JoinTable(name="categ_has_article",
      *   joinColumns={
      *     @ORM\JoinColumn(name="categ_idcateg", referencedColumnName="idcateg")
@@ -132,6 +133,11 @@ class Categ
         }
 
         return $this;
+    }
+
+    public function __toString():string
+    {
+        return $this->getTitre();
     }
 
 }

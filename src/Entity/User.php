@@ -83,5 +83,11 @@ class User
         return $this;
     }
 
+    // création d'une méthode __tostring qui affichera les texte voulu si on essaye de lire l'objet comme si c'était une chaîne de caractère
+    public function __toString():string
+    {
+        return $this->getThename()." ".$this->getThelogin();
+    }
+
 
 }
