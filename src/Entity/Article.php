@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints\DateTime;
 
 /**
  * Article
@@ -83,6 +84,8 @@ class Article
     public function __construct()
     {
         $this->categIdcateg = new \Doctrine\Common\Collections\ArrayCollection();
+        // on va mettre la date actuelle par défault si on crée un nouvel article (new Article)
+        $this->setThedate(new \Datetime());
     }
 
     public function getIdarticle(): ?int

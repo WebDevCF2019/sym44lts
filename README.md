@@ -984,4 +984,36 @@ on copie les annotations de categ et on remplace celles de Article, en changeant
     *   }
     * )
     */  
-Et le problème est résolu       
+Et le problème est résolu   
+
+### Pour avoir un temps par défaut lors de la création d'un article
+
+    dans Article.php:
+    
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->categIdcateg = new \Doctrine\Common\Collections\ArrayCollection();
+        // on va mettre la date actuelle par défault si on crée un nouvel article (new Article)
+        $this->setThedate(new \Datetime());
+    }
+#### Bug des dates inexistante en dehors de 2014 et 2024:
+
+trouver dans 
+
+    src/Form/ArticleType.php;   
+la ligne
+
+    $resolver->setDefaults([
+           'data_class' => Article::class,
+            ]);
+par 
+
+    $resolver->setDefaults([
+        'data_class' => Article::class,
+        'years' => range((int) date('Y') - 100, (int) date('Y') + 100),
+    ]);               
+
+                 

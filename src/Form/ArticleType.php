@@ -18,13 +18,17 @@ class ArticleType extends AbstractType
             ->add('thedate')
             ->add('userIduser')
             ->add('categIdcateg')
+
         ;
     }
+
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
+            'years' => [range((int) date('Y') - 100, (int) date('Y') + 100)],
             'data_class' => Article::class,
+
         ]);
     }
 }
