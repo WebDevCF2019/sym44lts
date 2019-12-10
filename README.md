@@ -871,7 +871,15 @@ Et dans la vue user.html.twig: (utilisation de article|lenght pour connaître le
            </main>
        {% endblock %}
        
-       
+#### CRUD pour article
+
+    php bin/console make:crud    
+    
+Dans ArticleController.php, changeons l'url pour qu'elle fasse partie d'une section admin
+
+    /**
+     * @Route("/admin/article")
+     */       
        
        
          
