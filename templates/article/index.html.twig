@@ -1,10 +1,12 @@
-{% extends 'base.html.twig' %}
+{% extends 'bootstrap4.html.twig' %}
 
 {% block title %}Article index{% endblock %}
 
-{% block body %}
+{% block content %}
+<main role="main" class="flex-shrink-0">
+    <div class="container">
     <h1>Article index</h1>
-
+        <a href="{{ path('article_new') }}">Create new</a>
     <table class="table">
         <thead>
             <tr>
@@ -38,4 +40,6 @@
     </table>
 
     <a href="{{ path('article_new') }}">Create new</a>
+    </div>
+</main>
 {% endblock %}
