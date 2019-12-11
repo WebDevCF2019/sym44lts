@@ -1030,6 +1030,29 @@ Notre problème de date est réglé
 #### Pour être obligé de choisir un utilisateur
 Comme le champs est en NULL (pour le CASCADE SET NULL)
 
+    public function buildForm(FormBuilderInterface $builder, array $options)
+        {
+
+            $builder
+                ->add('titre')
+                ->add('slug')
+                ->add('texte')
+                ->add('thedate',DateTimeType::class,[
+                    'date_widget'=>'choice',
+                    'required'=>true,
+                    'years' => range((int) date('Y') - 50, (int) date('Y') + 50),
+
+                ])
+                ->add('userIduser',null,['required' => true])
+                ->add('categIdcateg')
+
+            ;
+        }
+
+#### Pour être obligé de choisir la rubrique avec des checkbox
+
+    ->add('categIdcateg',null,['multiple'=>true,'expanded'=>true])
+
 #### Pour remplacer le thème des formulaires
 dans config/packages/twig.yaml ajoutez:
 

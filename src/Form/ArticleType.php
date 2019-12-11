@@ -28,8 +28,8 @@ class ArticleType extends AbstractType
                 'years' => range((int) date('Y') - 50, (int) date('Y') + 50),
 
             ])
-            ->add('userIduser')
-            ->add('categIdcateg')
+            ->add('userIduser',null,['required' => true])
+            ->add('categIdcateg',null,['multiple'=>true,'expanded'=>true])
 
         ;
     }
