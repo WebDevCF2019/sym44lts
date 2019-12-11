@@ -1022,3 +1022,28 @@ Dans src/Form/ArticleType.php
             ;
         }
 Notre problème de date est réglé
+
+#### Pour débugger les formulaires
+
+    php bin/console debug:form ArticleType
+
+#### Pour être obligé de choisir un utilisateur
+Comme le champs est en NULL (pour le CASCADE SET NULL)
+
+#### Pour remplacer le thème des formulaires
+dans config/packages/twig.yaml ajoutez:
+
+    twig:
+        form_themes: ['bootstrap_4_layout.html.twig']
+
+ce qui donnera:
+
+    twig:
+        default_path: '%kernel.project_dir%/templates'
+        debug: '%kernel.debug%'
+        strict_variables: '%kernel.debug%'
+        exception_controller: null
+        form_themes: ['bootstrap_4_layout.html.twig']
+
+
+https://symfony.com/doc/4.4/form/bootstrap4.html
