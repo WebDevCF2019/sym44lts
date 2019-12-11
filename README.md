@@ -1070,3 +1070,7 @@ ce qui donnera:
 
 
 https://symfony.com/doc/4.4/form/bootstrap4.html
+
+Pour sécurité:
+
+https://symfony.com/doc/4.0/security.html
