@@ -1001,19 +1001,24 @@ Et le problème est résolu
     }
 #### Bug des dates inexistante en dehors de 2014 et 2024:
 
-trouver dans 
+Dans src/Form/ArticleType.php
 
-    src/Form/ArticleType.php;   
-la ligne
+    public function buildForm(FormBuilderInterface $builder, array $options)
+        {
 
-    $resolver->setDefaults([
-           'data_class' => Article::class,
-            ]);
-par 
+            $builder
+                ->add('titre')
+                ->add('slug')
+                ->add('texte')
+                ->add('thedate',DateTimeType::class,[
+                    'date_widget'=>'choice',
+                    'required'=>true,
+                    'years' => range((int) date('Y') - 50, (int) date('Y') + 50),
 
-    $resolver->setDefaults([
-        'data_class' => Article::class,
-        'years' => range((int) date('Y') - 100, (int) date('Y') + 100),
-    ]);               
+                ])
+                ->add('userIduser')
+                ->add('categIdcateg')
 
-                 
+            ;
+        }
+Notre problème de date est réglé
