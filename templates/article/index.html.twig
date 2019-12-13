@@ -1,6 +1,15 @@
-{% extends 'bootstrap4.html.twig' %}
+{% extends 'bootstrap4Admin.html.twig' %}
 
-{% block title %}Admin | Tous les articles{% endblock %}
+{% block title %}{{ parent() }} | Accueil Admin{% endblock %}
+
+{% block menuhaut %}
+    <li class="nav-item">
+        <a class="nav-link" href="{{ path('article_new')}}">Nouvel Article</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{ path("homepage")}}">Déconnexion</a>
+    </li>
+{% endblock %}
 
 {% block content %}
 <main role="main" class="flex-shrink-0">
@@ -24,7 +33,7 @@
                 <td>{{ article.idarticle }}</td>
                 <td>{{ article.titre }}</td>
                 <td>{{ article.slug }}</td>
-                <td>{{ article.texte }}</td>
+                <td>{{ article.texte|u.truncate(120,'...') }}</td>
                 <td>{{ article.thedate ? article.thedate|date('Y-m-d H:i:s') : '' }}</td>
                 <td>
                     <a href="{{ path('article_show', {'idarticle': article.idarticle}) }}">show</a>
