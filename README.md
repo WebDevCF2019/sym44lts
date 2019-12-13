@@ -1147,5 +1147,10 @@ login: ryan et mdp : ryan n'a pas accès car il est un utilisateur (ROLE_USER)
 
 !!! cette méthode ne permet pas la déconnexion
 
+Pour encoder les mots de passe, utilisez la commande:
+
+    php bin/console security:encode-password
+    
+    
 
 
