@@ -36,19 +36,19 @@
                 <td>{{ article.texte|u.truncate(120,'...') }}</td>
                 <td>{{ article.thedate ? article.thedate|date('Y-m-d H:i:s') : '' }}</td>
                 <td>
-                    <a href="{{ path('article_show', {'idarticle': article.idarticle}) }}">show</a>
-                    <a href="{{ path('article_edit', {'idarticle': article.idarticle}) }}">edit</a>
+                    <a href="{{ path('article_show', {'idarticle': article.idarticle}) }}">Afficher</a>
+                    <a href="{{ path('article_edit', {'idarticle': article.idarticle}) }}">Modifier</a>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="6">no records found</td>
+                <td colspan="6">Pas encore d'articles</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <a href="{{ path('article_new') }}">Create new</a>
+    <a href="{{ path('article_new') }}">Créer un article</a>
     </div>
 </main>
 {% endblock %}
