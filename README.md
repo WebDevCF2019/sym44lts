@@ -1152,5 +1152,33 @@ Pour encoder les mots de passe, utilisez la commande:
     php bin/console security:encode-password
     
     
+### Utilisation d'un formulaire de connexion
 
+On remet security.yaml à 0:
 
+    security:
+        # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
+        providers:
+            in_memory: { memory: null }
+        firewalls:
+            dev:
+                pattern: ^/(_(profiler|wdt)|css|images|js)/
+                security: false
+            main:
+                anonymous: lazy
+    
+                # activate different ways to authenticate
+                # https://symfony.com/doc/current/security.html#firewalls-authentication
+    
+                # https://symfony.com/doc/current/security/impersonating_user.html
+                # switch_user: true
+    
+        # Easy way to control access for large sections of your site
+        # Note: Only the *first* access control that matches will be used
+        access_control:
+             - { path: ^/admin, roles: ROLE_ADMIN }
+            # - { path: ^/profile, roles: ROLE_USER }
+sauf qu'on décommente ^/admin            
+On va créer une classe de type user
+
+    php bin/console make:user
