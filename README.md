@@ -1076,6 +1076,76 @@ Création d'un enfant de bootstrap4.html.twig sous le nom de bootstrap4Admin.htm
 
 Utilisation de ce template à l'intérieur des templates de article
 
-Pour sécurité:
+### Pour la sécurité:
+https://symfony.com/doc/4.4/security.html
 
-https://symfony.com/doc/4.0/security.html
+Pour bloquer l'accès au dossier /admin/ et ne permettre qu'à l'administrateur d'y accèder, modifiez:
+
+    config/packages/security.yaml
+    
+et décommentez la ligne
+
+    access_control:
+       # - { path: ^/admin, roles: ROLE_ADMIN }
+       # - { path: ^/profile, roles: ROLE_USER }    
+pour l'administrateur :
+
+    access_control:
+        - { path: ^/admin, roles: ROLE_ADMIN }
+       # - { path: ^/profile, roles: ROLE_USER }       
+Vous avez bloqué l'accès à l'administration
+
+#### Création d'une connexion
+Accès simple par http:
+
+Dans 
+
+    config/packages/security.yaml
+ 
+
+    security:
+        # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
+        providers:
+            in_memory:
+                memory:
+                    users:
+                        ryan:
+                            # mot de passe en bcrypt : ryan
+                            password: $2y$13$w3ua6cQfNPF6JZ2hF3vl2OiJMC6i/gRmwEtFb4Om9JAd2273v/17.
+                            roles: 'ROLE_USER'
+                        admin:
+                            # mot de passe en bcrypt : lulu
+                            password: $2y$13$H9itHeim/tC03SFHuWNPVedSwj3um9uGhl9Nj3kNT9WZlcHUH2sK.
+                            roles: 'ROLE_ADMIN'
+        firewalls:
+            dev:
+                pattern: ^/(_(profiler|wdt)|css|images|js)/
+                security: false
+            main:
+                anonymous: lazy
+                http_basic:
+                    realm: Secured Area
+    
+        encoders:
+            Symfony\Component\Security\Core\User\User:
+                algorithm: bcrypt
+                # activate different ways to authenticate
+                # https://symfony.com/doc/current/security.html#firewalls-authentication
+    
+                # https://symfony.com/doc/current/security/impersonating_user.html
+                # switch_user: true
+    
+        # Easy way to control access for large sections of your site
+        # Note: Only the *first* access control that matches will be used
+        access_control:
+             - { path: ^/admin, roles: ROLE_ADMIN }
+            # - { path: ^/profile, roles: ROLE_USER }
+            
+Seul le rôle admin (ROLE_ADMIN) dont le mot de passe est crypté en bcrypt (vrai login: admin - pwd: lulu) a accès à l'admin.
+
+login: ryan et mdp : ryan n'a pas accès car il est un utilisateur (ROLE_USER)          
+
+!!! cette méthode ne permet pas la déconnexion
+
+
+
