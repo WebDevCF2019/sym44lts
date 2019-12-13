@@ -1071,6 +1071,11 @@ ce qui donnera:
 
 https://symfony.com/doc/4.4/form/bootstrap4.html
 
+#### Application d'un template Admin
+Création d'un enfant de bootstrap4.html.twig sous le nom de bootstrap4Admin.html.twig qui va servir aux fichiers d'administration
+
+Utilisation de ce template à l'intérieur des templates de article
+
 Pour sécurité:
 
 https://symfony.com/doc/4.0/security.html

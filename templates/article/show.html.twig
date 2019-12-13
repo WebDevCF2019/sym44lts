@@ -1,9 +1,20 @@
-{% extends 'base.html.twig' %}
+{% extends 'bootstrap4Admin.html.twig' %}
 
-{% block title %}Article{% endblock %}
+{% block title %}{{ parent() }} | Affiche article{% endblock %}
 
-{% block body %}
-    <h1>Article</h1>
+{% block menuhaut %}
+    <li class="nav-item">
+        <a class="nav-link" href="{{ path('article_new')}}">Nouvel Article</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{ path("homepage")}}">Déconnexion</a>
+    </li>
+{% endblock %}
+
+{% block content %}
+<main role="main" class="flex-shrink-0">
+    <div class="container">
+    <h1>Affichage de l'article</h1>
 
     <table class="table">
         <tbody>
@@ -30,9 +41,11 @@
         </tbody>
     </table>
 
-    <a href="{{ path('article_index') }}">back to list</a>
-
-    <a href="{{ path('article_edit', {'idarticle': article.idarticle}) }}">edit</a>
-
+    <a href="{{ path('article_index') }}">Retour à la liste</a>
+<hr>
+    <a href="{{ path('article_edit', {'idarticle': article.idarticle}) }}">modification de l'article</a>
+<hr>
     {{ include('article/_delete_form.html.twig') }}
+    </div>
+</main>
 {% endblock %}
