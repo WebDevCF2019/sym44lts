@@ -1391,4 +1391,6 @@ Dans les fichiers de templates/article changez
     <a class="nav-link" href="{{ path("homepage")}}">Déconnexion</a>
 Par
 
-    <a class="nav-link" href="{{ path("app_logout")}}">Déconnexion</a>        
+    <a class="nav-link" href="{{ path("app_logout")}}">Déconnexion</a>   
+    
+La déconnexion sera activée !         
