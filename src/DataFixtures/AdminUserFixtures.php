@@ -23,6 +23,7 @@ class AdminUserFixtures extends Fixture
         $adminUser
             ->setUsername($login)
             ->setRoles(['ROLE_USER','ROLE_ADMIN'])
+            ->setThemail("mjp@gmail.com")
             ->setPassword($this->passwordEncoder->encodePassword($adminUser,$mdp));
 
         $manager->persist($adminUser);
@@ -34,6 +35,7 @@ class AdminUserFixtures extends Fixture
         $adminUser
             ->setUsername($login)
             ->setRoles(['ROLE_USER'])
+            ->setThemail("lulu@gmail.com")
             ->setPassword($this->passwordEncoder->encodePassword($adminUser,$mdp));
 
         $manager->persist($adminUser);
