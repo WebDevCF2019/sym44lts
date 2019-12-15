@@ -94,7 +94,11 @@ class AdminUserAuthenticator extends AbstractFormLoginAuthenticator implements P
             return new RedirectResponse($targetPath);
         }
 
-        return new RedirectResponse($this->urlGenerator->generate('article_index'));
+        if(in_array('ROLE_ADMIN',$token->getRoleNames())) {
+            return new RedirectResponse($this->urlGenerator->generate('article_index'));
+        }else{
+            return new RedirectResponse($this->urlGenerator->generate('homepage'));
+        }
         throw new \Exception('TODO: provide a valid redirect inside '.__FILE__);
     }
 

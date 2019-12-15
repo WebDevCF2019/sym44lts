@@ -1421,4 +1421,17 @@ Il faut ensuite changer la redirection dans src\Security\AdminUserAuthenticator.
           throw new \Exception('TODO: provide a valid redirect inside '.__FILE__);
       }      
       
-suite: redirection suivant le rôle          
+#### redirection suivant le rôle    
+Dans src/Security/AdminUserAuthenticator.php
+
+     return new RedirectResponse($this->urlGenerator->generate('article_index'));
+
+Par 
+    
+    if(in_array('ROLE_ADMIN',$token->getRoleNames())) {
+        return new RedirectResponse($this->urlGenerator->generate('article_index'));
+    }else{
+        return new RedirectResponse($this->urlGenerator->generate('homepage'));
+    }      
+    
+               
