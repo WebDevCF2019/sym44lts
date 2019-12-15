@@ -1312,4 +1312,14 @@ On insert dans la DB:
 
     php bin/console doctrine:fixtures:load               
     
+### Création du formulaire d'autentification    
+
+On va d'abord lancer la commande:
+
+    php bin/console make:auth
+    choix: 1
     
+    comme nom:
+    AdminUserAuthenticator.php
+    
+    logout yes
