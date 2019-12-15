@@ -45,10 +45,23 @@ class Categ
      */
     private $descr;
 
-    /**
+    /*
      * @var \Doctrine\Common\Collections\Collection
      *
      * @ORM\ManyToMany(targetEntity="Article")
+     * @ORM\JoinTable(name="categ_has_article",
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="categ_idcateg", referencedColumnName="idcateg")
+     *   },
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="article_idarticle", referencedColumnName="idarticle")
+     *   }
+     * )
+     */
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\ManyToMany(targetEntity="Article", inversedBy="categIdcateg")
      * @ORM\JoinTable(name="categ_has_article",
      *   joinColumns={
      *     @ORM\JoinColumn(name="categ_idcateg", referencedColumnName="idcateg")
