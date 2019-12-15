@@ -1323,3 +1323,72 @@ On va d'abord lancer la commande:
     AdminUserAuthenticator.php
     
     logout yes
+Ce qui nous crée plusieurs fichiers
+
+On peut dorénavant se connecter avec Admin / Admin
+
+!!! Il faut rechanger les annotations dans Article.php et Categ.php pour la relation many to many
+
+    Article.php
+    
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\ManyToMany(targetEntity="Categ")
+     * @ORM\JoinTable(name="categ_has_article",
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="article_idarticle", referencedColumnName="idarticle")
+     *   },
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="categ_idcateg", referencedColumnName="idcateg")
+     *
+     *   }
+     * )
+     */
+    /*
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\ManyToMany(targetEntity="Categ", mappedBy="articleIdarticle")
+     */
+    private $categIdcateg;    
+    
+    Categ.php
+    
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\ManyToMany(targetEntity="Article")
+     * @ORM\JoinTable(name="categ_has_article",
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="categ_idcateg", referencedColumnName="idcateg")
+     *   },
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="article_idarticle", referencedColumnName="idarticle")
+     *   }
+     * )
+     */
+    /*
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\ManyToMany(targetEntity="Article", inversedBy="categIdcateg")
+     * @ORM\JoinTable(name="categ_has_article",
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="categ_idcateg", referencedColumnName="idcateg")
+     *   },
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="article_idarticle", referencedColumnName="idarticle")
+     *   }
+     * )
+     */
+    private $articleIdarticle;
+    
+Et l'admin refonctionne !
+
+#### Permettre la déconnexion:
+
+Dans les fichiers de templates/article changez
+
+    <a class="nav-link" href="{{ path("homepage")}}">Déconnexion</a>
+Par
+
+    <a class="nav-link" href="{{ path("app_logout")}}">Déconnexion</a>        
