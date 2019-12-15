@@ -1254,6 +1254,9 @@ Puis on effectue la migration:
 
     php bin/console doctrine:migrations:migrate
     
-          
+#### Création d'une Fixture pour AdminUser.php
+
+    php bin/console make:fixtures
+    AdminUserFixtures           
     
     
