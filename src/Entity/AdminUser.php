@@ -33,6 +33,11 @@ class AdminUser implements UserInterface
      */
     private $password;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $themail;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -104,5 +109,17 @@ class AdminUser implements UserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    public function getThemail(): ?string
+    {
+        return $this->themail;
+    }
+
+    public function setThemail(string $themail): self
+    {
+        $this->themail = $themail;
+
+        return $this;
     }
 }

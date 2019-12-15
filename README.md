@@ -1182,3 +1182,15 @@ sauf qu'on décommente ^/admin
 On va créer une classe de type user
 
     php bin/console make:user
+ici AdminUser
+
+puis pour rajouter des champs:
+
+    php bin/console make:entity
+    
+puis tenter la migration:
+
+    php bin/console make:migration     
+    
+Le problème de lien many to many bloque la migration, il faut remodifier Article.php et Categ.php provisoirement:
+       
