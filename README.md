@@ -1249,6 +1249,11 @@ Dans Categ.php
     
 on crée le fichier de migration:
 
-    php bin/console make:migration     
+    php bin/console make:migration  
+Puis on effectue la migration:
+
+    php bin/console doctrine:migrations:migrate
+    
+          
     
     
