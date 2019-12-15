@@ -1393,4 +1393,32 @@ Par
 
     <a class="nav-link" href="{{ path("app_logout")}}">Déconnexion</a>   
     
-La déconnexion sera activée !         
+La déconnexion sera activée !   
+
+#### Affichage différent si connecté
+
+Avec Lulu / Lulu, nous ne pouvons pas nous connecter
+
+Pour se déconnecter (quelque soit le rôle), dans templates/home/menuhaut.html.twig:
+
+    <li class="nav-item">
+        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+            <a class="nav-link" href="{{ path("app_logout")}}"> {{ app.user.username }} | Déconnexion</a>
+            {% else %}
+                <a class="nav-link" href="{{ path("app_login")}}">Connexion</a>
+        {% endif %}
+    </li>
+
+Il faut ensuite changer la redirection dans src\Security\AdminUserAuthenticator.php
+
+    public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
+      {
+          if ($targetPath = $this->getTargetPath($request->getSession(), $providerKey)) {
+              return new RedirectResponse($targetPath);
+          }
+    
+          return new RedirectResponse($this->urlGenerator->generate('article_index'));
+          throw new \Exception('TODO: provide a valid redirect inside '.__FILE__);
+      }      
+      
+suite: redirection suivant le rôle          
