@@ -1193,4 +1193,62 @@ puis tenter la migration:
     php bin/console make:migration     
     
 Le problème de lien many to many bloque la migration, il faut remodifier Article.php et Categ.php provisoirement:
-       
+
+dans Article.php:
+
+    /*
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\ManyToMany(targetEntity="Categ")
+     * @ORM\JoinTable(name="categ_has_article",
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="article_idarticle", referencedColumnName="idarticle")
+     *   },
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="categ_idcateg", referencedColumnName="idcateg")
+     *
+     *   }
+     * )
+     */
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\ManyToMany(targetEntity="Categ", mappedBy="articleIdarticle")
+     */
+    private $categIdcateg;       
+    
+Dans Categ.php
+
+    /*
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\ManyToMany(targetEntity="Article")
+     * @ORM\JoinTable(name="categ_has_article",
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="categ_idcateg", referencedColumnName="idcateg")
+     *   },
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="article_idarticle", referencedColumnName="idarticle")
+     *   }
+     * )
+     */
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\ManyToMany(targetEntity="Article", inversedBy="categIdcateg")
+     * @ORM\JoinTable(name="categ_has_article",
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="categ_idcateg", referencedColumnName="idcateg")
+     *   },
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="article_idarticle", referencedColumnName="idarticle")
+     *   }
+     * )
+     */
+    private $articleIdarticle;    
+    
+on crée le fichier de migration:
+
+    php bin/console make:migration     
+    
+    
