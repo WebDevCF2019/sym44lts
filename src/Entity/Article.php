@@ -62,7 +62,7 @@ class Article
      */
     private $userIduser;
 
-    /**
+    /*
      * @var \Doctrine\Common\Collections\Collection
      *
      * @ORM\ManyToMany(targetEntity="Categ")
@@ -75,6 +75,11 @@ class Article
      *
      *   }
      * )
+     */
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\ManyToMany(targetEntity="Categ", mappedBy="articleIdarticle")
      */
     private $categIdcateg;
 

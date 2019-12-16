@@ -1178,8 +1178,10 @@ On remet security.yaml à 0:
         access_control:
              - { path: ^/admin, roles: ROLE_ADMIN }
             # - { path: ^/profile, roles: ROLE_USER }
-sauf qu'on décommente ^/admin            
-On va créer une classe de type user
+sauf qu'on décommente ^/admin       
+
+### Bonne méthode de connexion     
+#### On va créer une classe de type user
 
     php bin/console make:user
         
@@ -1224,3 +1226,11 @@ On voit dans src/Entity/AdminUser.php les champs créés par défaut
 Pour rajouter des champs à notre table d'admin:
 
     php bin/console make:entity   
+    
+    puis le nom AdminUser
+    
+    on ajoute les champs themail et thename
+    
+### On tente la migration
+
+    php bin/console make:migration   
