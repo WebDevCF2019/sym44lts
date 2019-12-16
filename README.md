@@ -1296,4 +1296,16 @@ Maintenant réessayez:
     
 Un fichier de migration est créé dans src/Migrations     
         
-             
+#### pour migrer:
+
+    php bin/console doctrine:migrations:migrate
+    
+#### on va créer une fixture pour AdminUser
+
+    php bin/console make:fixtures   
+    AdminUserFixtures
+    
+un fichier est créé: src/DataFixtures/AdminUserFixtures.php
+
+
+                  
