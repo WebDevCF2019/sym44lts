@@ -1367,4 +1367,6 @@ Ensuite on charge les fixtures
 
     php bin/console doctrine:fixtures:load
 
-                  
+### création du formulaire
+
+    php bin/console make:auth                  
