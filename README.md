@@ -1233,4 +1233,67 @@ Pour rajouter des champs à notre table d'admin:
     
 ### On tente la migration
 
-    php bin/console make:migration   
+    php bin/console make:migration  
+    
+On obtient une erreur car on a changé les many to many pour pouvoir les utiliser dans les 2 sens facilement, on doit remettre ceux-ci dans Article.php:
+
+    /* UNE ETOILE CECI
+    n'est plus une annotation
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\ManyToMany(targetEntity="Categ")
+     * @ORM\JoinTable(name="categ_has_article",
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="article_idarticle", referencedColumnName="idarticle")
+     *   },
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="categ_idcateg", referencedColumnName="idcateg")
+     *
+     *   }
+     * )
+     */
+    /**
+    VRAIE ANNOTATION (**)
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\ManyToMany(targetEntity="Categ", mappedBy="articleIdarticle")
+     */
+    private $categIdcateg;   
+    
+Categ.php
+
+         /*
+          * @var \Doctrine\Common\Collections\Collection
+          *
+          * @ORM\ManyToMany(targetEntity="Article")
+          * @ORM\JoinTable(name="categ_has_article",
+          *   joinColumns={
+          *     @ORM\JoinColumn(name="categ_idcateg", referencedColumnName="idcateg")
+          *   },
+          *   inverseJoinColumns={
+          *     @ORM\JoinColumn(name="article_idarticle", referencedColumnName="idarticle")
+          *   }
+          * )
+          */
+         /**
+          * @var \Doctrine\Common\Collections\Collection
+          *
+          * @ORM\ManyToMany(targetEntity="Article", inversedBy="categIdcateg")
+          * @ORM\JoinTable(name="categ_has_article",
+          *   joinColumns={
+          *     @ORM\JoinColumn(name="categ_idcateg", referencedColumnName="idcateg")
+          *   },
+          *   inverseJoinColumns={
+          *     @ORM\JoinColumn(name="article_idarticle", referencedColumnName="idarticle")
+          *   }
+          * )
+          */
+         private $articleIdarticle;
+         
+Maintenant réessayez:
+
+    php bin/console make:migration
+    
+Un fichier de migration est créé dans src/Migrations     
+        
+             
