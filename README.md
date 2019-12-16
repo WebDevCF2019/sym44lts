@@ -1369,4 +1369,12 @@ Ensuite on charge les fixtures
 
 ### création du formulaire
 
-    php bin/console make:auth                  
+    php bin/console make:auth   
+    
+création de plusieures fichiers et modification de security.yaml
+
+On peut se connecter avec Admin / Admin -> on a accès à l'admin
+
+On peut se connecter avec Collaborateur / Collaborateur -> pas d'accès à l'admin
+
+                   
