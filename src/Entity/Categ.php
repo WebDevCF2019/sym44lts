@@ -45,7 +45,7 @@ class Categ
      */
     private $descr;
 
-    /*
+    /**
      * @var \Doctrine\Common\Collections\Collection
      *
      * @ORM\ManyToMany(targetEntity="Article")
@@ -58,7 +58,7 @@ class Categ
      *   }
      * )
      */
-    /**
+    /*
      * @var \Doctrine\Common\Collections\Collection
      *
      * @ORM\ManyToMany(targetEntity="Article", inversedBy="categIdcateg")
