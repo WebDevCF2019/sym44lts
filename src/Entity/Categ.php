@@ -45,6 +45,7 @@ class Categ
      */
     private $descr;
 
+
     /**
      * @var \Doctrine\Common\Collections\Collection
      *

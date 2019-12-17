@@ -62,6 +62,7 @@ class Article
      */
     private $userIduser;
 
+
     /**
      * @var \Doctrine\Common\Collections\Collection
      *

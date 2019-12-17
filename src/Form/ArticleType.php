@@ -29,6 +29,7 @@ class ArticleType extends AbstractType
 
             ])
             ->add('userIduser',null,['required' => true])
+
             /* by_reference => false permet à la relation many2many de fonctionner
                 pour l'ajout , modification / suppression de catégories sur l'article
             */
