@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Article;
 use App\Form\ArticleType;
+use App\Utils\Slug;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -38,6 +39,8 @@ class ArticleController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            // on crée le slug à partir du titre
+            $article->setSlug(Slug::slugletexte($article->getTitre()));
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($article);
             $entityManager->flush();
@@ -70,6 +73,8 @@ class ArticleController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            // on crée le slug à partir du titre
+            $article->setSlug(Slug::slugletexte($article->getTitre()));
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('article_index');

@@ -1464,4 +1464,30 @@ Il nous faut donc un lien de retour vers l'admin (sans devoir se connecter/déco
          {% endif %}
      {% else %}
          <a class="nav-link" href="{{ path("app_login")}}">Connexion</a>
-     {% endif %}                                 
+     {% endif %}                  
+     
+#### Slug automatique
+
+dans ArticleType.php, on met le champs slug en champs caché
+
+    ....
+    use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+    ....
+    // champs caché, le slug sera généré à partir du titre
+    ->add('slug', HiddenType::class)
+    
+Dans ArticleController.php on utilise notre Utils/Slug.php
+
+Dans le /new
+
+     if ($form->isSubmitted() && $form->isValid()) {
+     // on crée le slug à partir du titre
+     $article->setSlug(Slug::slugletexte($article->getTitre()));
+                                  
+Dans /update
+
+    if ($form->isSubmitted() && $form->isValid()) {
+     // on crée le slug à partir du titre
+     $article->setSlug(Slug::slugletexte($article->getTitre()));    
+     
+       

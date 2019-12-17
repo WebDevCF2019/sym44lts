@@ -3,9 +3,8 @@
 namespace App\Form;
 
 use App\Entity\Article;
-use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
@@ -20,7 +19,8 @@ class ArticleType extends AbstractType
 
         $builder
             ->add('titre')
-            ->add('slug')
+            // champs caché, le slug sera généré à partir du titre
+            ->add('slug', HiddenType::class)
             ->add('texte')
             ->add('thedate',DateTimeType::class,[
                 'date_widget'=>'choice',
