@@ -1,8 +1,14 @@
-{% extends 'base.html.twig' %}
+{% extends 'bootstrap4.html.twig' %}
 
-{% block title %}Log in!{% endblock %}
+{% block title %}{{ parent() }}Connexion{% endblock %}
 
-{% block body %}
+{% block menuhaut %}
+
+{% endblock %}
+
+{% block content %}
+<main role="main" class="flex-shrink-0">
+    <div class="container">
 <form method="post">
     {% if error %}
         <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
@@ -10,11 +16,11 @@
 
     {% if app.user %}
         <div class="mb-3">
-            You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
+            Vous êtes connecté {{ app.user.username }}, <a href="{{ path('app_logout') }}">Déconnexion</a>
         </div>
     {% endif %}
 
-    <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+    <h1 class="h3 mb-3 font-weight-normal">Veuillez-vous connecter</h1>
     <label for="inputUsername">Username</label>
     <input type="text" value="{{ last_username }}" name="username" id="inputUsername" class="form-control" required autofocus>
     <label for="inputPassword">Password</label>
@@ -36,7 +42,9 @@
     #}
 
     <button class="btn btn-lg btn-primary" type="submit">
-        Sign in
+        Connection
     </button>
 </form>
+    </div>
+</main>
 {% endblock %}
