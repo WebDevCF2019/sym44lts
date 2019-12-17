@@ -1396,5 +1396,16 @@ Dans ArticleType.php :
         ->add('userIduser',null,['required' => true])
         ->add('categIdcateg',null,['multiple'=>true,'expanded'=>true,'by_reference' => false,])
     ;
+#### Lien vers la connexion
 
-                   
+dans templates/home/menuhaut.html.twig
+
+    <li class="nav-item">
+        <a class="nav-link" href="{{ path("app_login")}}">Connexion</a>
+    </li>
+    
+ Si on se connecte avec Admin, il nous manque la redirection dans
+ 
+    src\Security\AdminUserAuthenticator.php
+    
+                      
