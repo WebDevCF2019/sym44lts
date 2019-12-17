@@ -62,21 +62,8 @@ class Article
      */
     private $userIduser;
 
+
     /**
-     * @var \Doctrine\Common\Collections\Collection
-     *
-     * @ORM\ManyToMany(targetEntity="Categ")
-     * @ORM\JoinTable(name="categ_has_article",
-     *   joinColumns={
-     *     @ORM\JoinColumn(name="article_idarticle", referencedColumnName="idarticle")
-     *   },
-     *   inverseJoinColumns={
-     *     @ORM\JoinColumn(name="categ_idcateg", referencedColumnName="idcateg")
-     *
-     *   }
-     * )
-     */
-    /*
      * @var \Doctrine\Common\Collections\Collection
      *
      * @ORM\ManyToMany(targetEntity="Categ", mappedBy="articleIdarticle")

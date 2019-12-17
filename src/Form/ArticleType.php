@@ -29,8 +29,7 @@ class ArticleType extends AbstractType
 
             ])
             ->add('userIduser',null,['required' => true])
-            ->add('categIdcateg',null,['multiple'=>true,'expanded'=>true])
-
+            ->add('categIdcateg',null,['multiple'=>true,'expanded'=>true,'by_reference' => false,])
         ;
     }
 

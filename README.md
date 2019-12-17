@@ -1377,4 +1377,24 @@ On peut se connecter avec Admin / Admin -> on a accès à l'admin
 
 On peut se connecter avec Collaborateur / Collaborateur -> pas d'accès à l'admin
 
+#### retrait du many to many manuel, l'outil magique by_reference
+
+Depuis cette version, le by_reference mis simplement à false suffit pour ne plus devoir modifier les relations many2many dans Categ.php et Article.php:
+
+Dans ArticleType.php :
+
+    $builder
+        ->add('titre')
+        ->add('slug')
+        ->add('texte')
+        ->add('thedate',DateTimeType::class,[
+            'date_widget'=>'choice',
+            'required'=>true,
+            'years' => range((int) date('Y') - 50, (int) date('Y') + 50),
+
+        ])
+        ->add('userIduser',null,['required' => true])
+        ->add('categIdcateg',null,['multiple'=>true,'expanded'=>true,'by_reference' => false,])
+    ;
+
                    
