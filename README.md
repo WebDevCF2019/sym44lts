@@ -1408,4 +1408,60 @@ dans templates/home/menuhaut.html.twig
  
     src\Security\AdminUserAuthenticator.php
     
-                      
+On va faire une redirection pour ROLE_ADMIN et une autre pour ROLE_USER
+
+    public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
+        {
+            if ($targetPath = $this->getTargetPath($request->getSession(), $providerKey)) {
+                return new RedirectResponse($targetPath);
+            }
+    
+            dump($token);
+    
+            // si on est connecté en tant que ROLE_ADMIN (il est présent dans le tableau $token->getRoleNames())
+            if(in_array("ROLE_ADMIN",$token->getRoleNames())) {
+    
+                // Redirection pour ROLE_ADMIN
+                return new RedirectResponse($this->urlGenerator->generate('article_index'));
+    
+            // connexion mais pas en ADMIN
+            }else{
+                // redirection pour ROLE_USER
+                return new RedirectResponse($this->urlGenerator->generate('homepage'));
+            }
+    
+    
+        }
+#### Lien Connexion / Déconnexion pour tous les rôles
+
+dans menuhaut.html.twig
+
+    <li class="nav-item">
+        {# si on est connecté (quelque soit le rôle)#}
+        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+            <a class="nav-link" href="{{ path("app_logout")}}">Déconnexion</a>
+        {% else %}
+            <a class="nav-link" href="{{ path("app_login")}}">Connexion</a>
+        {% endif %}
+    </li>
+    
+#### Pour retourner vers la homepage en étant admin
+
+Et sans se déconnecter, on modifie le lien dans templates/bootstrap4Admin.html.twig   
+
+    <a class="navbar-brand" href="{{path('homepage')}}" title="homepage">Sym44lts</a>
+    
+Il nous faut donc un lien de retour vers l'admin (sans devoir se connecter/déconnecter à chaque fois)
+
+#### Lien vers l'admin uniquement pour ROLE_ADMIN
+
+    {# si on est connecté (quelque soit le rôle)#}
+     {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+         <a class="nav-link" href="{{ path("app_logout")}}">Déconnexion</a>
+         {# si on est connecté en tant que ROLE_ADMIN #}
+         {% if is_granted("ROLE_ADMIN") %}
+             <a class="nav-link" href="{{ path("article_index")}}">Administration</a>
+         {% endif %}
+     {% else %}
+         <a class="nav-link" href="{{ path("app_login")}}">Connexion</a>
+     {% endif %}                                 
