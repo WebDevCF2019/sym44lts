@@ -11,7 +11,7 @@ use Symfony\Component\Validator\Constraints\DateTime;
  * Article
  *
  * @ORM\Table(name="article", uniqueConstraints={@ORM\UniqueConstraint(name="slug_UNIQUE", columns={"slug"})}, indexes={@ORM\Index(name="fk_article_user_idx", columns={"user_iduser"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\ArticleRepository")
  */
 class Article
 {

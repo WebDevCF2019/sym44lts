@@ -4,8 +4,9 @@ namespace App\Controller;
 
 
 use App\Utils\TraiteTexte;
+// Connecion PDO
+use Doctrine\DBAL\Driver\Connection;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 // nécessaire pour la requête du menu
 use App\Entity\Categ;
@@ -13,6 +14,7 @@ use App\Entity\Categ;
 use App\Entity\Article;
 // nécessaire pour les users
 use App\Entity\User;
+use Symfony\Component\HttpFoundation\Response;
 
 class HomeController extends AbstractController
 {
@@ -22,6 +24,37 @@ class HomeController extends AbstractController
     {
             // Doctrine récupère tous les champs de la table Categ
             return  $this->getDoctrine()->getRepository(Categ::class)->findAll();
+
+    }
+
+    // pour éviter d'avoir des centaines de requêtes, on va faire nous même nos jointures (rapidité)
+    private function recupTous(Connection $connection, $idcateg = 74)
+    {
+
+        $select = $connection->prepare("SELECT
+    a.*,
+    GROUP_CONCAT(c2.titre SEPARATOR '|||') AS categtitre,
+    GROUP_CONCAT(c2.slug SEPARATOR '|||') AS categslug,
+    u.thename,u.thelogin
+FROM
+    categ c
+INNER JOIN categ_has_article cha ON
+    cha.categ_idcateg = c.idcateg
+INNER JOIN article a ON
+    a.idarticle = cha.article_idarticle
+INNER JOIN categ_has_article cha2 ON
+    a.idarticle = cha2.article_idarticle
+INNER JOIN categ c2 ON
+    c2.idcateg = cha2.categ_idcateg
+INNER JOIN user u  ON
+	a.user_iduser = u.iduser
+WHERE
+    c.idcateg = :idcateg
+GROUP BY a.idarticle
+ORDER BY a.thedate DESC;");
+        $select->bindValue("idcateg",$idcateg);
+        $select->execute();
+        return $select->fetchAll();
 
     }
 
