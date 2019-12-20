@@ -16,9 +16,11 @@
                     <hr>
                     <h3>{{ item.titre }}</h3>
                     <h6>Catégories:
+                        {% set coupeTitre = item.categtitre|split('|||') %}
+                        {% set coupeSlug = item.categslug|split('|||') %}
                         {# Tant que l'on a des catégories pour cet article#}
-                        {% for cat in item.categIdcateg %}
-                            <a href="{{ path("categ",{slug:cat.slug}) }}">{{ cat.titre }}</a>
+                        {% for key, value in  coupeTitre %}
+                            <a href="{{ path("categ",{slug:coupeSlug[key]}) }}">{{ value }}</a>
                             {# si on est pas au dernier tour, on rajoute un | #}
                             {% if not loop.last %} | {% endif %}
                             {# Cet article n'est dans aucune catégorie #}
@@ -26,9 +28,9 @@
                             Aucune catégorie
                         {% endfor %}
                     </h6>
-                    <p>{{ item.texte }}
+                    <p>{{ item.texte|u.truncate(150,"...") }}
                         <br><a href="{{ path("article",{slug:item.slug}) }}">Lire la suite</a></p>
-                    <p><a href="{{ path("user",{thelogin:item.userIduser.thelogin}) }}">{{ item.userIduser.thename }}</a> le {{ item.thedate|date('d/m/Y \à H\\hi') }}</p>
+                    <p><a href="{{ path("user",{thelogin:item.thelogin}) }}">{{ item.thename }}</a> le {{ item.thedate|date('d/m/Y \à H\\hi') }}</p>
                 {% endfor %}
             </div>
         </main>

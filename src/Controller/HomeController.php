@@ -19,42 +19,13 @@ use Symfony\Component\HttpFoundation\Response;
 class HomeController extends AbstractController
 {
 
+
+
     // charge le menu
     public function menuHaut()
     {
             // Doctrine récupère tous les champs de la table Categ
             return  $this->getDoctrine()->getRepository(Categ::class)->findAll();
-
-    }
-
-    // pour éviter d'avoir des centaines de requêtes, on va faire nous même nos jointures (rapidité)
-    private function recupTous(Connection $connection, $idcateg = 74)
-    {
-
-        $select = $connection->prepare("SELECT
-    a.*,
-    GROUP_CONCAT(c2.titre SEPARATOR '|||') AS categtitre,
-    GROUP_CONCAT(c2.slug SEPARATOR '|||') AS categslug,
-    u.thename,u.thelogin
-FROM
-    categ c
-INNER JOIN categ_has_article cha ON
-    cha.categ_idcateg = c.idcateg
-INNER JOIN article a ON
-    a.idarticle = cha.article_idarticle
-INNER JOIN categ_has_article cha2 ON
-    a.idarticle = cha2.article_idarticle
-INNER JOIN categ c2 ON
-    c2.idcateg = cha2.categ_idcateg
-INNER JOIN user u  ON
-	a.user_iduser = u.iduser
-WHERE
-    c.idcateg = :idcateg
-GROUP BY a.idarticle
-ORDER BY a.thedate DESC;");
-        $select->bindValue("idcateg",$idcateg);
-        $select->execute();
-        return $select->fetchAll();
 
     }
 
@@ -82,6 +53,45 @@ ORDER BY a.thedate DESC;");
             "articles"=>$recupArticles,
         ]);
     }
+
+
+
+
+    // pour éviter d'avoir des centaines de requêtes, on va faire nous même nos jointures (rapidité)
+    private function recupTous( $idcateg = 74)
+    {
+
+        dump($this->getDoctrine()->getConnections());
+
+        $select = $this->getDoctrine()->getConnection('default')->prepare("SELECT
+    a.*,
+    GROUP_CONCAT(c2.titre SEPARATOR '|||') AS categtitre,
+    GROUP_CONCAT(c2.slug SEPARATOR '|||') AS categslug,
+    u.thename,u.thelogin
+FROM
+    categ c
+INNER JOIN categ_has_article cha ON
+    cha.categ_idcateg = c.idcateg
+INNER JOIN article a ON
+    a.idarticle = cha.article_idarticle
+INNER JOIN categ_has_article cha2 ON
+    a.idarticle = cha2.article_idarticle
+INNER JOIN categ c2 ON
+    c2.idcateg = cha2.categ_idcateg
+INNER JOIN user u  ON
+	a.user_iduser = u.iduser
+WHERE
+    c.idcateg = :idcateg
+GROUP BY a.idarticle
+ORDER BY a.thedate DESC;");
+        $select->bindValue("idcateg",$idcateg);
+        $select->execute();
+        return $select->fetchAll();
+
+    }
+
+
+
     /**
     * @Route("/categ/{slug}", name="categ")
     */
@@ -92,18 +102,17 @@ ORDER BY a.thedate DESC;");
                 getDoctrine()->
                 getRepository(Categ::class)->
                 findOneBy(['slug'=>$slug]);
+        $idcateg = $recupCateg->getIdcateg();
 
+        /* METHODE SIMPLE mais crée un nombre trop élevé de requêtes
         // grâce à la recupération de la categ, on prend tous les articles contenu dans celles-ci... grâce aux id liées
         $recupArticles = $recupCateg->getArticleIdarticle();
+        */
 
+        // Appel de notre méthode
+        $recupArticles = $this->recupTous($idcateg);
 
-        // on va faire une boucle tant qu'on a des articles pour raccourcir le texte tant que le plugin composer require twig/extensions (pas encore compatibler Twig 3)
-        foreach ($recupArticles as $valeur){
-            // on récupère le texte
-            $txt = $valeur->getTexte();
-            // on remet le texte raccourci par notre service TraiteTexte
-            $valeur->setTexte(TraiteTexte::Raccourci($txt,250));
-        }
+        //dump($recupArticles);
 
 
         // chargement du template
@@ -169,5 +178,7 @@ ORDER BY a.thedate DESC;");
                 "utilisateur"=>$user,
             ]);
     }
+
+
 
 }
