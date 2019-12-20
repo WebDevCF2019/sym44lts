@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Article;
 use App\Form\ArticleType;
 use App\Utils\Slug;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -66,6 +67,7 @@ class ArticleController extends AbstractController
 
     /**
      * @Route("/{idarticle}/edit", name="article_edit", methods={"GET","POST"})
+     * @IsGranted()
      */
     public function edit(Request $request, Article $article): Response
     {

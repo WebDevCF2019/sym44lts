@@ -4,6 +4,7 @@ namespace App\Controller;
 
 
 use App\Utils\TraiteTexte;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 // Connecion PDO
 use Doctrine\DBAL\Driver\Connection;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -19,7 +20,12 @@ use Symfony\Component\HttpFoundation\Response;
 class HomeController extends AbstractController
 {
 
+    private $session;
 
+    public function __construct(SessionInterface $session)
+    {
+        $this->session = $session;
+    }
 
     // charge le menu
     public function menuHaut()
@@ -113,7 +119,7 @@ ORDER BY a.thedate DESC;");
         $recupArticles = $this->recupTous($idcateg);
 
         //dump($recupArticles);
-
+        dump($this->session->all());
 
         // chargement du template
         return $this->render('home/categ.html.twig', [
